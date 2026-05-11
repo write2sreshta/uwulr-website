@@ -1,7 +1,22 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)",
+      "Bash(sleep 3 && cat /tmp/uwulr-dev.log)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(kill 88493)",
+      "Bash(find /tmp /var/folders -name \"*.png\" -newer /Users/sreshta/development/uwulr-website/package.json 2>/dev/null | head -20)",
+      "Bash(find ~/Downloads ~/Desktop ~/Library/Caches -name \"*.png\" -newer /Users/sreshta/development/uwulr-website/package.json 2>/dev/null | head -10 *)",
+      "Bash(cp \"/Users/sreshta/Downloads/law review logo \\(1\\).png\" /Users/sreshta/development/uwulr-website/public/logo.png *)",
+      "Bash(npm run *)",
+      "Bash(xargs sed -i '' \"s/'Lovelo', 'Futura'/'Lovelo Black', 'Lovelo', 'Futura'/g\")",
+      "Bash(curl -s \"https://fonts.cdnfonts.com/css/lovelo\")",
+      "Bash(xargs sed -i '' \"s/'Lovelo Black', 'Lovelo', 'Futura'/'Lovelo Solid', 'Futura'/g\")",
+      "Bash(xargs ls -lt)",
+      "Bash(xargs sed -i '' \"s/'Anaktoria', Georgia, serif/var\\(--font-dm-sans\\), 'DM Sans', sans-serif/g\")",
+      "Bash(grep -i -E \"\\\\.\\(jpg|jpeg|png|heic\\)$\")",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
