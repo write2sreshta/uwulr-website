@@ -16,7 +16,10 @@
       "Bash(xargs sed -i '' \"s/'Anaktoria', Georgia, serif/var\\(--font-dm-sans\\), 'DM Sans', sans-serif/g\")",
       "Bash(grep -i -E \"\\\\.\\(jpg|jpeg|png|heic\\)$\")",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp"
     ]
   }
 }

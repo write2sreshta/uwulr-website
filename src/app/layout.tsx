@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: "UW Undergraduate Law Review",
   description:
     "The University of Washington's premier forum for publishing rigorous undergraduate legal scholarship.",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

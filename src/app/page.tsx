@@ -1,21 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const pillars = [
+const events = [
   {
-    icon: "§",
-    title: "Academic Rigor",
-    body: "We hold every submission to the highest standards of scholarly integrity, methodology, and original legal analysis.",
+    label: "Recurring · Every Tuesday",
+    date: "8:30 PM",
+    title: "Executive Board Meeting",
+    tag: "Internal",
   },
   {
-    icon: "⚖",
-    title: "Editorial Integrity",
-    body: "Our multi-stage review process ensures every published piece reflects careful, independent editorial judgment.",
+    label: "Friday, May 15",
+    date: "May 15",
+    title: "Op-Ed Writers Program — First Pitch Doc Releases",
+    tag: "Op-Eds",
   },
   {
-    icon: "✦",
-    title: "Interdisciplinary Reach",
-    body: "We bridge law, policy, economics, philosophy, and social science to cultivate scholarship that transcends disciplinary boundaries.",
+    label: "Sunday, May 18",
+    date: "May 18",
+    title: "Long-Form Spring '26 Applications Due",
+    tag: "Journal · 11:59 PM",
   },
 ];
 
@@ -361,7 +364,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Pillars — UW campus background ── */}
+      {/* ── Upcoming Events ── */}
       <section className="relative py-28 overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80"
@@ -370,10 +373,7 @@ export default function HomePage() {
           className="object-cover object-center"
           unoptimized
         />
-        <div
-          className="absolute inset-0"
-          style={{ background: "rgba(42,24,80,0.92)" }}
-        />
+        <div className="absolute inset-0" style={{ background: "rgba(42,24,80,0.92)" }} />
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14">
             <p
@@ -386,7 +386,7 @@ export default function HomePage() {
                 fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
               }}
             >
-              What We Stand For
+              Calendar
             </p>
             <h2
               style={{
@@ -396,44 +396,83 @@ export default function HomePage() {
                 letterSpacing: "0.04em",
               }}
             >
-              Our Core Principles
+              Upcoming Events & Deadlines
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {pillars.map(({ icon, title, body }) => (
+          <div className="flex flex-col gap-4">
+            {events.map(({ label, date, title, tag }) => (
               <div
                 key={title}
                 style={{
                   backgroundColor: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(183,165,122,0.25)",
-                  padding: "2rem",
+                  borderLeft: "4px solid #b7a57a",
+                  padding: "1.5rem 2rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "2rem",
+                  flexWrap: "wrap",
                 }}
               >
-                <div style={{ color: "#b7a57a", fontSize: "1.75rem", marginBottom: "1rem" }}>
-                  {icon}
+                <div
+                  style={{
+                    minWidth: "60px",
+                    textAlign: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "#b7a57a",
+                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                      fontSize: "1.3rem",
+                      lineHeight: 1,
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {date}
+                  </p>
                 </div>
-                <h3
+                <div style={{ flex: 1 }}>
+                  <p
+                    style={{
+                      color: "rgba(255,255,255,0.45)",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                      marginBottom: "0.3rem",
+                    }}
+                  >
+                    {label}
+                  </p>
+                  <h3
+                    style={{
+                      color: "#ffffff",
+                      fontSize: "1rem",
+                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {title}
+                  </h3>
+                </div>
+                <span
                   style={{
-                    color: "#ffffff",
-                    fontSize: "1rem",
-                    marginBottom: "0.75rem",
+                    display: "inline-block",
+                    border: "1px solid rgba(183,165,122,0.4)",
+                    color: "#b7a57a",
+                    fontSize: "0.55rem",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    padding: "0.25rem 0.65rem",
                     fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                    letterSpacing: "0.04em",
+                    flexShrink: 0,
                   }}
                 >
-                  {title}
-                </h3>
-                <p
-                  style={{
-                    color: "rgba(255,255,255,0.65)",
-                    fontSize: "1rem",
-                    lineHeight: 1.8,
-                    fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
-                  }}
-                >
-                  {body}
-                </p>
+                  {tag}
+                </span>
               </div>
             ))}
           </div>
@@ -630,12 +669,12 @@ export default function HomePage() {
         />
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, rgba(250,248,244,0.97), rgba(240,235,224,0.96))" }}
+          style={{ background: "rgba(20,10,40,0.63)" }}
         />
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
           <h2
             style={{
-              color: "#2a1850",
+              color: "#ffffff",
               fontSize: "clamp(1.4rem, 3vw, 1.9rem)",
               marginBottom: "1rem",
               fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
@@ -646,7 +685,7 @@ export default function HomePage() {
           </h2>
           <p
             style={{
-              color: "#666",
+              color: "rgba(255,255,255,0.7)",
               fontSize: "1rem",
               lineHeight: 1.85,
               marginBottom: "2rem",
