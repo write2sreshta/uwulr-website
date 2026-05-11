@@ -127,14 +127,23 @@ export default function JournalPage() {
             </div>
           </div>
 
-          {/* Issue dropdown */}
-          <IssueDropdown
+          {/* Issue dropdown — hidden until first issue publishes */}
+          {/* <IssueDropdown
             label="Current Issue"
             title="Volume 1, Issue 1 · Spring 2026"
             articleCount={articles.length}
             pages={170}
             articles={articles}
-          />
+          /> */}
+
+          {/* Empty state */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4rem 0", position: "relative" }}>
+            <div style={{ position: "absolute", width: "160px", height: "160px", borderRadius: "50%", backgroundColor: "rgba(183,165,122,0.25)" }} />
+            <span style={{ position: "relative", fontSize: "2rem", opacity: 0.5, color: "#4b2e83" }}>✦</span>
+            <p style={{ position: "relative", marginTop: "0.35rem", color: "rgba(75,46,131,0.75)", fontSize: "0.95rem", fontFamily: "'Anaktoria', Georgia, serif", fontStyle: "italic", textAlign: "center", lineHeight: 1.2 }}>
+              currently no student<br />works available
+            </p>
+          </div>
 
         </div>
       </section>

@@ -137,8 +137,17 @@ export default function OpEdsPage() {
             </div>
           </div>
 
-          {/* Filter + articles (client component) */}
-          <OpEdsList opeds={opeds} />
+          {/* Filter + articles — hidden until first op-eds publish */}
+          {/* <OpEdsList opeds={opeds} /> */}
+
+          {/* Empty state */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4rem 0", position: "relative" }}>
+            <div style={{ position: "absolute", width: "160px", height: "160px", borderRadius: "50%", backgroundColor: "rgba(183,165,122,0.25)" }} />
+            <span style={{ position: "relative", fontSize: "2rem", opacity: 0.5, color: "#4b2e83" }}>✦</span>
+            <p style={{ position: "relative", marginTop: "0.35rem", color: "rgba(75,46,131,0.75)", fontSize: "0.95rem", fontFamily: "'Anaktoria', Georgia, serif", fontStyle: "italic", textAlign: "center", lineHeight: 1.2 }}>
+              currently no student<br />works available
+            </p>
+          </div>
 
         </div>
       </section>
