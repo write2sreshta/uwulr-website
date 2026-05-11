@@ -367,13 +367,12 @@ export default function HomePage() {
       {/* ── Upcoming Events ── */}
       <section className="relative py-28 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=80"
-          alt="University campus"
+          src="/events-library.jpg"
+          alt="Suzzallo Library reading room"
           fill
           className="object-cover object-center"
-          unoptimized
         />
-        <div className="absolute inset-0" style={{ background: "rgba(42,24,80,0.92)" }} />
+        <div className="absolute inset-0" style={{ background: "rgba(20,10,40,0.63)" }} />
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14">
             <p
@@ -405,7 +404,7 @@ export default function HomePage() {
               <div
                 key={title}
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.06)",
+                  backgroundColor: "rgba(42,24,80,0.75)",
                   border: "1px solid rgba(183,165,122,0.25)",
                   borderLeft: "4px solid #b7a57a",
                   padding: "1.5rem 2rem",
@@ -479,240 +478,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Publication cards ── */}
-      <section className="py-24" style={{ backgroundColor: "#faf8f4" }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14">
+      {/* ── Meet the Team strip ── */}
+      <section className="py-16" style={{ backgroundColor: "#ffffff" }}>
+        <div className="max-w-5xl mx-auto px-6 lg:px-8 flex items-center justify-between gap-6 flex-wrap">
+          <div>
             <p
               style={{
                 color: "#b7a57a",
                 fontSize: "0.65rem",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                marginBottom: "0.75rem",
+                marginBottom: "0.5rem",
                 fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
               }}
             >
-              Explore
+              Editorial Board
             </p>
             <h2
               style={{
                 color: "#2a1850",
-                fontSize: "clamp(1.6rem, 3.5vw, 2.3rem)",
+                fontSize: "clamp(1.4rem, 3vw, 2rem)",
                 fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                letterSpacing: "0.04em",
+                letterSpacing: "0.03em",
               }}
             >
-              Our Publications
+              Meet the Team
             </h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Op-Eds card */}
-            <Link href="/op-eds" style={{ textDecoration: "none" }}>
-              <div
-                style={{
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #e8e2d8",
-                  overflow: "hidden",
-                  height: "100%",
-                  cursor: "pointer",
-                }}
-                className="hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="relative w-full" style={{ height: "180px" }}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80"
-                    alt="Law books"
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0" style={{ background: "rgba(42,24,80,0.3)" }} />
-                </div>
-                <div style={{ padding: "2rem" }}>
-                  <p
-                    style={{
-                      color: "#b7a57a",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      marginBottom: "0.75rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                    }}
-                  >
-                    Commentary
-                  </p>
-                  <h3
-                    style={{
-                      color: "#2a1850",
-                      fontSize: "1.4rem",
-                      marginBottom: "0.75rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                    }}
-                  >
-                    Op-Eds
-                  </h3>
-                  <p
-                    style={{
-                      color: "#666",
-                      fontSize: "1rem",
-                      lineHeight: 1.8,
-                      marginBottom: "1.25rem",
-                      fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
-                    }}
-                  >
-                    Timely student commentary on legal issues, policy debates, and matters of
-                    public concern — written for a broad, engaged audience.
-                  </p>
-                  <span
-                    style={{
-                      color: "#4b2e83",
-                      fontSize: "0.7rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      borderBottom: "2px solid #b7a57a",
-                      paddingBottom: "1px",
-                    }}
-                  >
-                    Browse Op-Eds →
-                  </span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Journal card */}
-            <Link href="/journal" style={{ textDecoration: "none" }}>
-              <div
-                style={{
-                  overflow: "hidden",
-                  height: "100%",
-                  cursor: "pointer",
-                  backgroundColor: "#2a1850",
-                }}
-                className="hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="relative w-full" style={{ height: "180px" }}>
-                  <Image
-                    src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80"
-                    alt="Legal library"
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0" style={{ background: "rgba(42,24,80,0.5)" }} />
-                </div>
-                <div style={{ padding: "2rem" }}>
-                  <p
-                    style={{
-                      color: "#b7a57a",
-                      fontSize: "0.6rem",
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      marginBottom: "0.75rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                    }}
-                  >
-                    Scholarship
-                  </p>
-                  <h3
-                    style={{
-                      color: "#ffffff",
-                      fontSize: "1.4rem",
-                      marginBottom: "0.75rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                    }}
-                  >
-                    Journal
-                  </h3>
-                  <p
-                    style={{
-                      color: "rgba(255,255,255,0.65)",
-                      fontSize: "1rem",
-                      lineHeight: 1.8,
-                      marginBottom: "1.25rem",
-                      fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
-                    }}
-                  >
-                    Peer-reviewed long-form legal scholarship authored by University of Washington
-                    undergraduates — our flagship academic publication.
-                  </p>
-                  <span
-                    style={{
-                      color: "#b7a57a",
-                      fontSize: "0.7rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      borderBottom: "2px solid #b7a57a",
-                      paddingBottom: "1px",
-                    }}
-                  >
-                    Read the Journal →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Team CTA with campus photo strip ── */}
-      <section className="relative py-24 overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1920&q=80"
-          alt="University of Washington Red Square"
-          fill
-          className="object-cover object-center"
-          unoptimized
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "rgba(20,10,40,0.63)" }}
-        />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <h2
-            style={{
-              color: "#ffffff",
-              fontSize: "clamp(1.4rem, 3vw, 1.9rem)",
-              marginBottom: "1rem",
-              fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-              letterSpacing: "0.04em",
-            }}
-          >
-            Meet the Editors
-          </h2>
-          <p
-            style={{
-              color: "rgba(255,255,255,0.7)",
-              fontSize: "1rem",
-              lineHeight: 1.85,
-              marginBottom: "2rem",
-              fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
-            }}
-          >
-            The UW Undergraduate Law Review is led by a dedicated team of student editors
-            committed to excellence in legal scholarship.
-          </p>
           <Link
             href="/team"
             style={{
-              display: "inline-block",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.5rem",
               backgroundColor: "#4b2e83",
               color: "#ffffff",
-              padding: "0.9rem 2.4rem",
+              padding: "0.85rem 2rem",
               fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-              fontSize: "0.7rem",
+              fontSize: "0.65rem",
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               textDecoration: "none",
             }}
           >
-            View Our Team
+            Our Team →
           </Link>
         </div>
       </section>
+
     </>
   );
 }
