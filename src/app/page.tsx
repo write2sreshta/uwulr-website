@@ -208,7 +208,7 @@ export default function HomePage() {
                   marginBottom: "0.4rem",
                 }}
               >
-                Now Accepting Submissions
+                Read the Edition Now
               </h2>
               <p
                 style={{
@@ -219,7 +219,7 @@ export default function HomePage() {
                   fontWeight: 700,
                 }}
               >
-                Deadline: May 18 at 11:59 PM
+                Celebrating our inaugural publication
               </p>
             </div>
             <Link

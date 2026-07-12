@@ -107,42 +107,36 @@ export default function JournalPage() {
               <h2 style={{ color: "#ffffff", fontSize: "1.1rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", letterSpacing: "0.04em", marginBottom: "0.85rem" }}>
                 Submit Your Paper
               </h2>
-              <div style={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem", lineHeight: 1.75, fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                <p>We are excited to announce the first call for submissions to the University of Washington Undergraduate Law Review! 🎉</p>
-                <p>As we launch this publication, we are seeking rigorous, original scholarship that reflects analytical depth, intellectual precision, and meaningful engagement with legal questions. Our goal is to showcase the strongest undergraduate legal writing at the University of Washington and to build a journal defined by interdisciplinary excellence from its very first issue.</p>
-                <p>As such we welcome and encourage students of all disciplines (including non-legal adjacent majors) to apply.</p>
-                <p style={{ color: "#b7a57a", fontWeight: 600 }}>Submission Deadline: May 18 at 11:59 PM PST</p>
-                <p>Please review the Journal Submission Guide carefully and ensure that your manuscript adheres strictly to the outlined requirements. Submissions not adhering to the guidelines will not be considered.</p>
-                <p>If you have questions specific to this application, please email: <a href="mailto:journal.uwuglawreview@gmail.com" style={{ color: "#b7a57a", textDecoration: "underline" }}>journal.uwuglawreview@gmail.com</a> — We look forward to reading your work!</p>
-              </div>
+              <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: 1.65, fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
+                The UW Undergraduate Law Review publishes long-form, research-driven student scholarship on relevant and pressing questions of law. We accept submissions every quarter. Sign up for our <a href="https://docs.google.com/forms/d/e/1FAIpQLSflxjw9T6pUTOm0HO55cc6n0Tlh6mPHGC91SIccy2672eVy5w/viewform" target="_blank" rel="noopener noreferrer" style={{ color: "#b7a57a", textDecoration: "underline" }}>mailing list</a> to be notified when applications open up again!
+              </p>
             </div>
-            <div style={{ display: "flex", gap: "0.75rem", flexShrink: 0, flexWrap: "wrap", alignSelf: "flex-start" }}>
-              <a href="https://forms.gle/fwa7eB91p82Uj1Xp7" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", backgroundColor: "#b7a57a", color: "#2a1850", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
-                Application
-              </a>
-              <a href="https://docs.google.com/document/d/19A3Edv9IZbDjj4FvCPtfSkY4rFZCehDJ_v5ordqCMoY/edit?pli=1&tab=t.0"
-              target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", border: "1px solid rgba(183,165,122,0.6)", color: "#b7a57a", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
-                Submission Guidelines
-              </a>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.4rem", flexShrink: 0, alignSelf: "flex-start" }}>
+              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                <span style={{ display: "inline-block", backgroundColor: "rgba(183,165,122,0.3)", color: "rgba(255,255,255,0.35)", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", cursor: "not-allowed" }}>
+                  Application
+                </span>
+                <span style={{ display: "inline-block", backgroundColor: "rgba(183,165,122,0.15)", color: "rgba(255,255,255,0.25)", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", cursor: "not-allowed" }}>
+                  Submission Guidelines
+                </span>
+              </div>
+              <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.75rem", fontStyle: "italic", fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
+                Fall &apos;26 applications not opened yet
+              </span>
             </div>
           </div>
 
-          {/* Issue dropdown — hidden until first issue publishes */}
-          {/* <IssueDropdown
-            label="Current Issue"
-            title="Volume 1, Issue 1 · Spring 2026"
-            articleCount={articles.length}
-            pages={170}
-            articles={articles}
-          /> */}
-
-          {/* Empty state */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4rem 0", position: "relative" }}>
-            <div style={{ position: "absolute", width: "160px", height: "160px", borderRadius: "50%", backgroundColor: "rgba(183,165,122,0.25)" }} />
-            <span style={{ position: "relative", fontSize: "2rem", opacity: 0.5, color: "#4b2e83" }}>✦</span>
-            <p style={{ position: "relative", marginTop: "0.35rem", color: "rgba(75,46,131,0.75)", fontSize: "0.95rem", fontFamily: "'Anaktoria', Georgia, serif", fontStyle: "italic", textAlign: "center", lineHeight: 1.2 }}>
-              currently no student<br />works available
+          {/* Current Issue — Volume 1, Spring 2026 */}
+          <div style={{ marginTop: "0.5rem" }}>
+            <p style={{ color: "#b7a57a", fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", marginBottom: "0.75rem" }}>
+              Current Issue · Volume 1, Spring 2026
             </p>
+            <iframe
+              src="/journal-spring-2026.pdf"
+              width="100%"
+              style={{ height: "80vh", border: "1px solid #e8e2d8", display: "block" }}
+              title="UWULR Spring 2026 Journal Inaugural Edition"
+            />
           </div>
 
         </div>
