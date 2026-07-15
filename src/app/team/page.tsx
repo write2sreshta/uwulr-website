@@ -25,7 +25,7 @@ const members = [
     bio: "Oversees the editorial direction, publication standards, and strategic vision of the Law Review.",
   },
   {
-    name: "Montana",
+    name: "Montana LaBarge",
     role: "Co-Lead Editor, Journal Publications",
     photo: "/team-montana.png",
     initials: "M",
