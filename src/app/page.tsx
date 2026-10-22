@@ -168,7 +168,7 @@ export default function HomePage() {
                 textDecoration: "none",
               }}
             >
-              Browse Op-Eds
+              Apply to Op-Ed
             </Link>
           </div>
         </div>
@@ -197,7 +197,7 @@ export default function HomePage() {
                   marginBottom: "0.35rem",
                 }}
               >
-                Journal Vol. 1 · Spring 2026
+                Op-Ed Writers Program
               </p>
               <h2
                 style={{
@@ -208,7 +208,7 @@ export default function HomePage() {
                   marginBottom: "0.4rem",
                 }}
               >
-                Read the Edition Now
+                Apply Now
               </h2>
               <p
                 style={{
@@ -219,11 +219,11 @@ export default function HomePage() {
                   fontWeight: 700,
                 }}
               >
-                Celebrating our inaugural publication
+                Join our student commentary program
               </p>
             </div>
             <Link
-              href="/journal"
+              href="/op-eds"
               style={{
                 color: "#b7a57a",
                 fontSize: "1.6rem",

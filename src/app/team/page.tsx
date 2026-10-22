@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import MemberCard from "@/components/MemberCard";
+import TeamAccordion from "@/components/TeamAccordion";
 
 export const metadata: Metadata = {
   title: "Our Team | UW Undergraduate Law Review",
 };
 
-const members = [
+const officers2627 = [
   {
     name: "Sreshta Appalabattula",
     role: "Co-Editor-in-Chief",
@@ -26,18 +26,42 @@ const members = [
   },
   {
     name: "Montana LaBarge",
-    role: "Co-Lead Editor, Journal Publications",
+    role: "Lead Editor, Op-Ed Publications",
     photo: "/team-montana.png",
     initials: "M",
-    bio: "Leads the peer-review process for long-form journal submissions and guides authors through substantive revisions.",
+    bio: "Leads the editorial process for op-ed submissions and guides contributors through writing and revisions.",
   },
   {
     name: "Evan Maudlin",
-    role: "Co-Lead Editor, Journal Publications",
+    role: "Lead Editor, Journal Publications",
     photo: null,
     initials: "EM",
     bio: "Leads the peer-review process for long-form journal submissions and guides authors through substantive revisions.",
   },
+  {
+    name: "Tova Korry",
+    role: "Podcast Producer",
+    photo: "/team-tova.jpeg",
+    initials: "TK",
+    bio: "Produces and hosts the Law Review podcast, coordinating guest interviews and audio production.",
+  },
+  {
+    name: "Faith McHugh",
+    role: "Director of Events",
+    photo: "/team-faith.jpeg",
+    initials: "FM",
+    bio: "Plans and executes Law Review events, from speaker panels to tabling and outreach initiatives.",
+  },
+  {
+    name: "Delaney Haye",
+    role: "Director of Marketing",
+    photo: null,
+    initials: "DH",
+    bio: "Manages the Law Review's social media presence, outreach strategy, and brand communications.",
+  },
+];
+
+const leadership2526 = [
   {
     name: "Tate Parker",
     role: "Co-Lead Editor, Journal Publications",
@@ -65,27 +89,6 @@ const members = [
     photo: null,
     initials: "PG",
     bio: "Manages the op-ed submission pipeline, works with contributors on commentary pieces, and oversees the editorial review process.",
-  },
-  {
-    name: "Tova Korry",
-    role: "Podcast Producer",
-    photo: "/team-tova.jpeg",
-    initials: "TK",
-    bio: "Produces and hosts the Law Review podcast, coordinating guest interviews and audio production.",
-  },
-  {
-    name: "Faith McHugh",
-    role: "Director of Events",
-    photo: "/team-faith.jpeg",
-    initials: "FM",
-    bio: "Plans and executes Law Review events, from speaker panels to tabling and outreach initiatives.",
-  },
-  {
-    name: "Delaney Haye",
-    role: "Director of Marketing",
-    photo: null,
-    initials: "DH",
-    bio: "Manages the Law Review's social media presence, outreach strategy, and brand communications.",
   },
 ];
 
@@ -144,49 +147,7 @@ export default function TeamPage() {
         subtitle="The UW Undergraduate Law Review is run entirely by undergraduate students dedicated to elevating legal scholarship on campus."
       />
 
-      {/* All Officers */}
-      <section className="py-20" style={{ backgroundColor: "#ffffff" }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <p
-              style={{
-                color: "#b7a57a",
-                fontSize: "0.65rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                marginBottom: "0.5rem",
-                fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-              }}
-            >
-              2025-26 Leadership
-            </p>
-            <h2
-              style={{
-                color: "#2a1850",
-                fontSize: "clamp(1.5rem, 3vw, 1.9rem)",
-                fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                letterSpacing: "0.04em",
-              }}
-            >
-              Executive &amp; Editorial Officers
-            </h2>
-          </div>
-
-          {/* Co-Editors-in-Chief centered row */}
-          <div className="grid grid-cols-2 gap-6 mb-6" style={{ maxWidth: "560px", margin: "0 auto 1.5rem" }}>
-            {members.slice(0, 2).map((member) => (
-              <MemberCard key={member.name + member.role} {...member} />
-            ))}
-          </div>
-
-          {/* All remaining members */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {members.slice(2).map((member) => (
-              <MemberCard key={member.name + member.role} {...member} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <TeamAccordion officers={officers2627} pastLeadership={leadership2526} />
 
       {/* Join CTA */}
       <section className="relative py-24 overflow-hidden text-center">

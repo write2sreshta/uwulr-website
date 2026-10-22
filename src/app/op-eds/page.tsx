@@ -124,16 +124,13 @@ export default function OpEdsPage() {
                 OP-ED Writers Program
               </h2>
               <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: 1.65, fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
-                Every quarter, we offer approximately 10 students the opportunity to develop their skills in legal writing, research, and investigation through our training program. Admitted students are expected to write two articles during their first quarter and may continue as writers for the Law Review for as long as they remain active thereafter. Once admitted, students do not need to reapply to the program and have lifetime access to ULR programming and publishing/career opportunities.
+                Every quarter, we offer a select group of students the opportunity to develop their skills in legal writing, research, and investigation through our training program. Admitted students are expected to write two articles during their first quarter and may continue as writers for the Law Review for as long as they remain active thereafter. Once admitted, students do not need to reapply to the program and have lifetime access to ULR programming and publishing/career opportunities.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.4rem", flexShrink: 0 }}>
-              <span style={{ display: "inline-block", backgroundColor: "rgba(183,165,122,0.3)", color: "rgba(255,255,255,0.35)", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", cursor: "not-allowed" }}>
+              <a href="https://forms.gle/p459ctpUzL8XUamx5" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", backgroundColor: "#b7a57a", color: "#2a1850", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
                 Application
-              </span>
-              <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.75rem", fontStyle: "italic", fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
-                Fall &apos;26 applications not opened yet
-              </span>
+              </a>
             </div>
           </div>
 
