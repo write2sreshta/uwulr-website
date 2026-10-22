@@ -124,7 +124,7 @@ export default function OpEdsPage() {
                 🎉 26-27 OP-ED Writers Program
               </h2>
               <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: 1.65, fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
-                Starting this year, we will be offering a select group of students the opportunity to develop their skills in legal writing, research, and investigation through our training program. Admitted students are expected to write two articles during their first quarter and may continue as writers for the Law Review for as long as they remain active thereafter. Once admitted, students do not need to reapply to the program and have lifetime access to ULR programming and publishing/career opportunities.
+                Starting this year, we will be offering a select group of students the opportunity to develop their skills in legal writing, research, and investigation through our training program. Admitted students are expected to attend all training programs and write at least 4 articles across winter and spring. After a successful assessment of skills by the editorial team, they may continue as writers for the Law Review for as long as they remain active thereafter. Once admitted, students do not need to reapply to the program and have lifetime access to ULR programming and publishing/career opportunities as long as they are in good standing.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.4rem", flexShrink: 0 }}>
