@@ -3,22 +3,25 @@ import Image from "next/image";
 
 const events = [
   {
-    label: "Recurring · Every Tuesday",
-    date: "8:30 PM",
-    title: "Executive Board Meeting",
-    tag: "Internal",
-  },
-  {
-    label: "Friday, May 15",
-    date: "May 15",
-    title: "Op-Ed Writers Program — First Pitch Doc Releases",
+    label: "Saturday, October 25 · 11:59 PM",
+    date: "Oct 25",
+    title: "Op-Ed Writers Program Applications Due",
     tag: "Op-Eds",
+    href: "https://forms.gle/p459ctpUzL8XUamx5",
   },
   {
-    label: "Sunday, May 18",
-    date: "May 18",
-    title: "Long-Form Spring '26 Applications Due",
-    tag: "Journal · 11:59 PM",
+    label: "Recurring · Every Friday",
+    date: "4–5 PM",
+    title: "Exec & Editorial Team Meeting",
+    tag: "Internal",
+    href: null,
+  },
+  {
+    label: "Wednesday, October 28",
+    date: "Oct 28",
+    title: "Podcast Episode 1 Drops",
+    tag: "Podcast",
+    href: null,
   },
 ];
 
@@ -142,8 +145,8 @@ export default function HomePage() {
               href="/journal"
               style={{
                 display: "inline-block",
-                backgroundColor: "#b7a57a",
-                color: "#2a1850",
+                border: "1px solid rgba(183,165,122,0.7)",
+                color: "#b7a57a",
                 padding: "0.9rem 2.4rem",
                 fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
                 fontSize: "0.7rem",
@@ -158,8 +161,8 @@ export default function HomePage() {
               href="/op-eds"
               style={{
                 display: "inline-block",
-                border: "1px solid rgba(183,165,122,0.7)",
-                color: "#b7a57a",
+                backgroundColor: "#b7a57a",
+                color: "#2a1850",
                 padding: "0.9rem 2.4rem",
                 fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
                 fontSize: "0.7rem",
@@ -400,7 +403,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-col gap-4">
-            {events.map(({ label, date, title, tag }) => (
+            {events.map(({ label, date, title, tag, href }) => (
               <div
                 key={title}
                 style={{
@@ -446,16 +449,35 @@ export default function HomePage() {
                   >
                     {label}
                   </p>
-                  <h3
-                    style={{
-                      color: "#ffffff",
-                      fontSize: "1rem",
-                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                      letterSpacing: "0.03em",
-                    }}
-                  >
-                    {title}
-                  </h3>
+                  {href ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "#ffffff",
+                        fontSize: "1rem",
+                        fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                        letterSpacing: "0.03em",
+                        textDecoration: "underline",
+                        textDecorationColor: "rgba(183,165,122,0.5)",
+                        textUnderlineOffset: "3px",
+                      }}
+                    >
+                      {title} →
+                    </a>
+                  ) : (
+                    <h3
+                      style={{
+                        color: "#ffffff",
+                        fontSize: "1rem",
+                        fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                        letterSpacing: "0.03em",
+                      }}
+                    >
+                      {title}
+                    </h3>
+                  )}
                 </div>
                 <span
                   style={{
