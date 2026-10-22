@@ -121,15 +121,15 @@ export default function OpEdsPage() {
           <div style={{ backgroundColor: "#4b2e83", padding: "1.5rem 2rem", marginBottom: "2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1.5rem", flexWrap: "wrap" }}>
             <div>
               <h2 style={{ color: "#ffffff", fontSize: "1.1rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", letterSpacing: "0.04em", marginBottom: "0.35rem" }}>
-                OP-ED Writers Program
+                🎉 26-27 OP-ED Writers Program
               </h2>
               <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem", lineHeight: 1.65, fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif" }}>
                 Every quarter, we offer a select group of students the opportunity to develop their skills in legal writing, research, and investigation through our training program. Admitted students are expected to write two articles during their first quarter and may continue as writers for the Law Review for as long as they remain active thereafter. Once admitted, students do not need to reapply to the program and have lifetime access to ULR programming and publishing/career opportunities.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "0.4rem", flexShrink: 0 }}>
-              <a href="https://forms.gle/p459ctpUzL8XUamx5" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", backgroundColor: "#b7a57a", color: "#2a1850", padding: "0.65rem 1.5rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
-                Application
+              <a href="https://forms.gle/p459ctpUzL8XUamx5" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", backgroundColor: "#b7a57a", color: "#2a1850", padding: "1rem 2.2rem", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", fontSize: "0.75rem", letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", fontWeight: 700 }}>
+                Apply Now →
               </a>
             </div>
           </div>

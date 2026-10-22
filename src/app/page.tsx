@@ -83,7 +83,7 @@ export default function HomePage() {
           <h1
             style={{
               color: "#ffffff",
-              fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
+              fontSize: "clamp(2rem, 9vw, 5.5rem)",
               lineHeight: 1,
               letterSpacing: "0.06em",
               marginBottom: 0,
@@ -96,7 +96,7 @@ export default function HomePage() {
           <h1
             style={{
               color: "#ffffff",
-              fontSize: "clamp(3.5rem, 8vw, 5.5rem)",
+              fontSize: "clamp(2rem, 9vw, 5.5rem)",
               lineHeight: 1,
               letterSpacing: "0.06em",
               marginBottom: "0.15rem",

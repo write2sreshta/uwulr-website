@@ -131,12 +131,15 @@ export default function JournalPage() {
             <p style={{ color: "#b7a57a", fontSize: "0.6rem", letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: "'Lovelo Solid', 'Futura', sans-serif", marginBottom: "0.75rem" }}>
               Current Issue · Volume 1, Spring 2026
             </p>
-            <iframe
-              src="/journal-spring-2026.pdf"
-              width="100%"
-              style={{ height: "80vh", border: "1px solid #e8e2d8", display: "block" }}
-              title="UWULR Spring 2026 Journal Inaugural Edition"
-            />
+            <div style={{ overflowY: "auto", WebkitOverflowScrolling: "touch" as const, height: "80vh", border: "1px solid #e8e2d8" }}>
+              <iframe
+                src="/journal-spring-2026.pdf"
+                width="100%"
+                height="100%"
+                style={{ display: "block", border: "none" }}
+                title="UWULR Spring 2026 Journal Inaugural Edition"
+              />
+            </div>
           </div>
 
         </div>

@@ -20,7 +20,11 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "mcp__Claude_in_Chrome__tabs_context_mcp",
-      "Bash(grep -i -E \"\\\\.\\(jpg|jpeg|png|webp\\)$\")"
+      "Bash(grep -i -E \"\\\\.\\(jpg|jpeg|png|webp\\)$\")",
+      "Bash(npx vercel@latest inspect --logs)",
+      "Bash(npx vercel@latest ls --non-interactive)",
+      "Bash(vercel ls *)",
+      "Bash(node -e \"const p = require\\('./package.json'\\); console.log\\('next:', p.dependencies.next\\)\")"
     ]
   }
 }
