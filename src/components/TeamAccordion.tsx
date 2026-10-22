@@ -2,7 +2,7 @@
 import { useState } from "react";
 import MemberCard from "./MemberCard";
 
-type Member = {
+type Officer = {
   name: string;
   role: string;
   photo: string | null;
@@ -13,12 +13,17 @@ type Member = {
   photoOffsetY?: string;
 };
 
+type MastheadEntry = {
+  name: string;
+  role: string;
+};
+
 export default function TeamAccordion({
   officers,
   pastLeadership,
 }: {
-  officers: Member[];
-  pastLeadership: Member[];
+  officers: Officer[];
+  pastLeadership: MastheadEntry[];
 }) {
   const [pastOpen, setPastOpen] = useState(false);
 
@@ -122,12 +127,42 @@ export default function TeamAccordion({
           </button>
 
           {pastOpen && (
-            <div
-              className="grid grid-cols-2 md:grid-cols-3 gap-6"
-              style={{ marginTop: "1.5rem" }}
-            >
-              {pastLeadership.map((member) => (
-                <MemberCard key={member.name + member.role} {...member} />
+            <div style={{ marginTop: "1.25rem", borderTop: "1px solid #e8e2d8", paddingTop: "1.5rem" }}>
+              {pastLeadership.map(({ name, role }) => (
+                <div
+                  key={name}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "baseline",
+                    gap: "1rem",
+                    padding: "0.55rem 0",
+                    borderBottom: "1px solid #f0ece6",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "#2a1850",
+                      fontSize: "0.9rem",
+                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    {name}
+                  </span>
+                  <span
+                    style={{
+                      color: "#b7a57a",
+                      fontSize: "0.7rem",
+                      fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
+                      letterSpacing: "0.04em",
+                      textAlign: "right",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {role}
+                  </span>
+                </div>
               ))}
             </div>
           )}

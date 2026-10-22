@@ -59,37 +59,27 @@ const officers2627 = [
     initials: "DH",
     bio: "Manages the Law Review's social media presence, outreach strategy, and brand communications.",
   },
+  {
+    name: "Morgan Jay",
+    role: "Director of Finance",
+    photo: null,
+    initials: "MJ",
+    bio: "Manages the Law Review's budget, financial planning, and resource allocation.",
+  },
 ];
 
 const leadership2526 = [
-  {
-    name: "Tate Parker",
-    role: "Co-Lead Editor, Journal Publications",
-    photo: null,
-    initials: "TP",
-    bio: "Leads the peer-review process for long-form journal submissions and guides authors through substantive revisions.",
-  },
-  {
-    name: "Isabelle Greenberg",
-    role: "Co-Lead Editor, Op-Eds",
-    photo: "/team-isabelle.jpeg",
-    initials: "IG",
-    bio: "Manages the op-ed submission pipeline, works with contributors on commentary pieces, and oversees the editorial review process.",
-  },
-  {
-    name: "Katharine Rigsby",
-    role: "Co-Lead Editor, Op-Eds",
-    photo: "/team-katharine.png",
-    initials: "KR",
-    bio: "Manages the op-ed submission pipeline, works with contributors on commentary pieces, and oversees the editorial review process.",
-  },
-  {
-    name: "Paarth Gupta",
-    role: "Co-Lead Editor, Op-Eds",
-    photo: null,
-    initials: "PG",
-    bio: "Manages the op-ed submission pipeline, works with contributors on commentary pieces, and oversees the editorial review process.",
-  },
+  { name: "Sreshta Appalabattula", role: "Co-Editor-in-Chief" },
+  { name: "Syd Sabourin", role: "Co-Editor-in-Chief" },
+  { name: "Montana LaBarge", role: "Co-Lead Editor, Journal Publications" },
+  { name: "Evan Maudlin", role: "Co-Lead Editor, Journal Publications" },
+  { name: "Tate Parker", role: "Co-Lead Editor, Journal Publications" },
+  { name: "Isabelle Greenberg", role: "Co-Lead Editor, Op-Eds" },
+  { name: "Katharine Rigsby", role: "Co-Lead Editor, Op-Eds" },
+  { name: "Paarth Gupta", role: "Co-Lead Editor, Op-Eds" },
+  { name: "Tova Korry", role: "Podcast Producer" },
+  { name: "Faith McHugh", role: "Director of Events" },
+  { name: "Delaney Haye", role: "Director of Marketing" },
 ];
 
 
