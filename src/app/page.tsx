@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const events = [
   {
-    label: "Saturday, October 25 · 11:59 PM",
-    date: "Oct 25",
+    label: "Saturday, October 24 · 11:59 PM",
+    date: "Oct 24",
     title: "Op-Ed Writers Program Applications Due",
     tag: "Op-Eds",
     href: "https://forms.gle/p459ctpUzL8XUamx5",
