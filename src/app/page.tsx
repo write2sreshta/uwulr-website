@@ -3,13 +3,6 @@ import Image from "next/image";
 
 const events = [
   {
-    label: "Saturday, October 24 · 11:59 PM",
-    date: "Oct 24",
-    title: "Op-Ed Writers Program Applications Due",
-    tag: "Op-Eds",
-    href: "https://forms.gle/p459ctpUzL8XUamx5",
-  },
-  {
     label: "Recurring · Every Friday",
     date: "4–5 PM",
     title: "Exec & Editorial Team Meeting",
@@ -17,10 +10,17 @@ const events = [
     href: null,
   },
   {
-    label: "Wednesday, October 28",
-    date: "Oct 28",
+    label: "Monday, November 9",
+    date: "Nov 9",
     title: "Podcast Episode 1 Drops",
     tag: "Podcast",
+    href: null,
+  },
+  {
+    label: "Thursday, November 13",
+    date: "Nov 13",
+    title: "Op-Ed Pitch Meeting",
+    tag: "Op-Eds",
     href: null,
   },
 ];
@@ -145,22 +145,6 @@ export default function HomePage() {
               href="/journal"
               style={{
                 display: "inline-block",
-                border: "1px solid rgba(183,165,122,0.7)",
-                color: "#b7a57a",
-                padding: "0.9rem 2.4rem",
-                fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                fontSize: "0.7rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-              }}
-            >
-              Read the Journal
-            </Link>
-            <Link
-              href="/op-eds"
-              style={{
-                display: "inline-block",
                 backgroundColor: "#b7a57a",
                 color: "#2a1850",
                 padding: "0.9rem 2.4rem",
@@ -171,75 +155,13 @@ export default function HomePage() {
                 textDecoration: "none",
               }}
             >
-              Apply to Op-Ed
+              Read the Journal
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── Call for Submissions ── */}
-      <section style={{ backgroundColor: "#4b2e83" }}>
-        <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "2rem",
-              flexWrap: "wrap",
-            }}
-          >
-            <div>
-              <p
-                style={{
-                  color: "#b7a57a",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                Op-Ed Writers Program
-              </p>
-              <h2
-                style={{
-                  color: "#ffffff",
-                  fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
-                  fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                  letterSpacing: "0.04em",
-                  marginBottom: "0.4rem",
-                }}
-              >
-                Apply Now
-              </h2>
-              <p
-                style={{
-                  color: "#b7a57a",
-                  fontSize: "1.05rem",
-                  fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-                  letterSpacing: "0.04em",
-                  fontWeight: 700,
-                }}
-              >
-                Join our student commentary program
-              </p>
-            </div>
-            <Link
-              href="/op-eds"
-              style={{
-                color: "#b7a57a",
-                fontSize: "1.6rem",
-                textDecoration: "none",
-                flexShrink: 0,
-                lineHeight: 1,
-              }}
-            >
-              →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Apply Now banner hidden — applications closed */}
 
       {/* ── Mission ── */}
       <section className="py-24 lg:py-32" style={{ backgroundColor: "#ffffff" }}>
