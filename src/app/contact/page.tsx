@@ -18,6 +18,7 @@ const contacts = [
     email: "journal.uwuglawreview@gmail.com",
     description:
       "For inquiries related to long-form journal paper submissions, the review process, or publication status.",
+    note: "For editors and published writers only.",
     icon: "§",
   },
   {
@@ -25,6 +26,7 @@ const contacts = [
     email: "oped.uwuglawreview@gmail.com",
     description:
       "For inquiries related to op-ed submissions, commentary pitches, or the op-ed editorial process.",
+    note: "For editors and published writers only.",
     icon: "✦",
   },
 ];
@@ -168,7 +170,7 @@ export default function ContactPage() {
 
           {/* Journal + Op-Ed — side by side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {contacts.slice(1).map(({ type, email, description, icon }) => (
+            {contacts.slice(1).map(({ type, email, description, note, icon }) => (
               <div
                 key={type}
                 style={{
@@ -222,6 +224,21 @@ export default function ContactPage() {
                 >
                   {description}
                 </p>
+
+                {note && (
+                  <p
+                    style={{
+                      color: "#b7a57a",
+                      fontSize: "0.7rem",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+                      marginTop: "0.25rem",
+                    }}
+                  >
+                    {note}
+                  </p>
+                )}
               </div>
             ))}
           </div>
