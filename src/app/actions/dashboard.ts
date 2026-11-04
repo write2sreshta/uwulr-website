@@ -157,6 +157,7 @@ export async function updatePipelineSchedule(formData: FormData) {
     editor_r1_done_by: formData.get("editor_r1_done_by") || null,
     draft_v2_due: formData.get("draft_v2_due") || null,
     final_editor_done_by: formData.get("final_editor_done_by") || null,
+    final_version_due: formData.get("final_version_due") || null,
     publish_date: formData.get("publish_date") || null,
     updated_at: new Date().toISOString(),
   }, { onConflict: "id" });
@@ -216,6 +217,36 @@ export async function publishArticle(writerId: string, publishedUrl: string) {
     updated_at: new Date().toISOString(),
   }).eq("writer_id", writerId);
   revalidatePath("/dashboard");
+}
+
+// ── Profile ──────────────────────────────────────────────────────────────────
+
+export async function updateProfile(formData: FormData) {
+  const session = await requireRole("admin", "editor", "writer");
+  await db.from("users").update({
+    name: (formData.get("name") as string)?.trim() || undefined,
+    email: (formData.get("email") as string)?.trim() || null,
+    avatar_url: (formData.get("avatar_url") as string)?.trim() || null,
+  }).eq("id", session.userId);
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/profile");
+}
+
+export async function changeOwnPassword(formData: FormData) {
+  const session = await requireRole("admin", "editor", "writer");
+  const current = formData.get("current_password") as string;
+  const next = formData.get("new_password") as string;
+
+  const { data: user } = await db.from("users").select("password_hash").eq("id", session.userId).single();
+  if (!user) throw new Error("User not found");
+
+  const valid = await bcrypt.compare(current, user.password_hash);
+  if (!valid) return "Current password is incorrect";
+
+  const hash = await bcrypt.hash(next, 12);
+  await db.from("users").update({ password_hash: hash }).eq("id", session.userId);
+  revalidatePath("/dashboard/profile");
+  return null;
 }
 
 // ── Admin: users ─────────────────────────────────────────────────────────────

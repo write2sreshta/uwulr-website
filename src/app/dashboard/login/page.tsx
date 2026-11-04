@@ -1,16 +1,17 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { login } from "@/app/actions/auth";
 
 export default function LoginPage() {
   const [error, action, pending] = useActionState(login, null);
+  const [showPw, setShowPw] = useState(false);
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#0f0a1e",
+        backgroundColor: "#f5f4ff",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -22,9 +23,10 @@ export default function LoginPage() {
           width: "100%",
           maxWidth: "400px",
           padding: "2.5rem",
-          backgroundColor: "#1a1130",
-          border: "1px solid rgba(183,165,122,0.2)",
+          backgroundColor: "#ffffff",
+          border: "1px solid rgba(75,46,131,0.12)",
           borderRadius: "12px",
+          boxShadow: "0 4px 24px rgba(75,46,131,0.08)",
         }}
       >
         {/* Header */}
@@ -43,7 +45,7 @@ export default function LoginPage() {
           </div>
           <h1
             style={{
-              color: "#ffffff",
+              color: "#1a0a3d",
               fontSize: "1.4rem",
               fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
               letterSpacing: "0.05em",
@@ -60,7 +62,7 @@ export default function LoginPage() {
               htmlFor="username"
               style={{
                 display: "block",
-                color: "rgba(255,255,255,0.6)",
+                color: "rgba(75,46,131,0.6)",
                 fontSize: "0.7rem",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
@@ -79,10 +81,10 @@ export default function LoginPage() {
               style={{
                 width: "100%",
                 padding: "0.65rem 0.85rem",
-                backgroundColor: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(183,165,122,0.3)",
+                backgroundColor: "#f8f7ff",
+                border: "1px solid rgba(75,46,131,0.2)",
                 borderRadius: "6px",
-                color: "#ffffff",
+                color: "#1a0a3d",
                 fontSize: "0.95rem",
                 outline: "none",
                 boxSizing: "border-box",
@@ -95,7 +97,7 @@ export default function LoginPage() {
               htmlFor="password"
               style={{
                 display: "block",
-                color: "rgba(255,255,255,0.6)",
+                color: "rgba(75,46,131,0.6)",
                 fontSize: "0.7rem",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
@@ -105,28 +107,61 @@ export default function LoginPage() {
             >
               Password
             </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              style={{
-                width: "100%",
-                padding: "0.65rem 0.85rem",
-                backgroundColor: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(183,165,122,0.3)",
-                borderRadius: "6px",
-                color: "#ffffff",
-                fontSize: "0.95rem",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                id="password"
+                name="password"
+                type={showPw ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                style={{
+                  width: "100%",
+                  padding: "0.65rem 2.6rem 0.65rem 0.85rem",
+                  backgroundColor: "#f8f7ff",
+                  border: "1px solid rgba(75,46,131,0.2)",
+                  borderRadius: "6px",
+                  color: "#1a0a3d",
+                  fontSize: "0.95rem",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((v) => !v)}
+                style={{
+                  position: "absolute",
+                  right: "0.75rem",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  color: "rgba(75,46,131,0.45)",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                aria-label={showPw ? "Hide password" : "Show password"}
+              >
+                {showPw ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
 
           {error && (
-            <p style={{ color: "#f87171", fontSize: "0.85rem", margin: 0 }}>{error}</p>
+            <p style={{ color: "#b91c1c", fontSize: "0.85rem", margin: 0 }}>{error}</p>
           )}
 
           <button
@@ -135,8 +170,8 @@ export default function LoginPage() {
             style={{
               marginTop: "0.5rem",
               padding: "0.75rem",
-              backgroundColor: "#b7a57a",
-              color: "#1a1130",
+              backgroundColor: "#4b2e83",
+              color: "#ffffff",
               border: "none",
               borderRadius: "6px",
               fontSize: "0.75rem",

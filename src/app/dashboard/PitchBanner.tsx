@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createPitch, claimPitch, deletePitch, approvePitch, rejectPitch } from "@/app/actions/dashboard";
+import { createPitch, claimPitch, deletePitch } from "@/app/actions/dashboard";
 
 interface Pitch {
   id: string;
@@ -36,52 +36,68 @@ export default function PitchBanner({
   const daysLeft = Math.ceil((closesIn.getTime() - Date.now()) / 86400000);
 
   return (
-    <div
-      style={{
-        backgroundColor: "rgba(183,165,122,0.08)",
-        border: "1px solid rgba(183,165,122,0.3)",
-        borderRadius: "10px",
-        padding: "1rem 1.25rem",
-      }}
-    >
-      <div
-        style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer" }}
+    <div style={{ marginBottom: "1.25rem" }}>
+      {/* Dashed CTA button */}
+      <button
         onClick={() => setExpanded((v) => !v)}
+        style={{
+          width: "100%",
+          padding: "0.75rem 1.25rem",
+          backgroundColor: expanded ? "rgba(75,46,131,0.04)" : "transparent",
+          border: "1.5px dashed rgba(75,46,131,0.35)",
+          borderRadius: "8px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.75rem",
+          transition: "background 0.15s, border-color 0.15s",
+        }}
       >
         <span style={{ fontSize: "1rem" }}>📋</span>
-        <div style={{ flex: 1 }}>
-          <span
-            style={{
-              color: "#b7a57a",
-              fontSize: "0.7rem",
-              letterSpacing: "0.18em",
-              fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-              textTransform: "uppercase",
-            }}
-          >
-            Pitch Window Open
-          </span>
-          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.8rem", marginLeft: "0.75rem" }}>
-            {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} left` : "Closes today"}
-            {" · "}
-            {pitches.length} pitch{pitches.length !== 1 ? "es" : ""} available
-          </span>
-        </div>
-        <button style={btnStyle}>
-          {expanded ? "Close ▲" : "View Pitches ▼"}
-        </button>
-        {isEditor && (
-          <button
-            style={ghostBtnStyle}
-            onClick={(e) => { e.stopPropagation(); setShowCreate((v) => !v); }}
-          >
-            + Add Pitch
-          </button>
-        )}
-      </div>
+        <span
+          style={{
+            color: "#4b2e83",
+            fontSize: "0.72rem",
+            letterSpacing: "0.16em",
+            fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+            textTransform: "uppercase",
+          }}
+        >
+          Pitch Window Open
+        </span>
+        <span style={{ color: "#6b5f8a", fontSize: "0.8rem", flex: 1, textAlign: "left" }}>
+          {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} left` : "Closes today"}
+          {" · "}
+          {pitches.length} pitch{pitches.length !== 1 ? "es" : ""} available
+        </span>
+        <span style={{ color: "#4b2e83", fontSize: "0.72rem" }}>
+          {expanded ? "▲" : "▼"}
+        </span>
+      </button>
 
+      {/* Expanded panel */}
       {expanded && (
-        <div style={{ marginTop: "1rem" }}>
+        <div
+          style={{
+            marginTop: "0.5rem",
+            padding: "1rem 1.25rem",
+            backgroundColor: "#ffffff",
+            border: "1px solid rgba(75,46,131,0.1)",
+            borderRadius: "8px",
+          }}
+        >
+          {/* Editor controls */}
+          {isEditor && (
+            <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
+              <button
+                style={btnStyle}
+                onClick={() => setShowCreate((v) => !v)}
+              >
+                {showCreate ? "Cancel" : "+ Add Pitch"}
+              </button>
+            </div>
+          )}
+
           {showCreate && isEditor && (
             <form
               action={async (fd) => {
@@ -90,18 +106,18 @@ export default function PitchBanner({
                   setShowCreate(false);
                 });
               }}
-              style={{ ...cardStyle, marginBottom: "0.75rem" }}
+              style={{ ...cardStyle, marginBottom: "0.75rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}
             >
               <input name="title" placeholder="Pitch title" required style={inputStyle} />
               <textarea name="description" placeholder="Brief description…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
-              <button type="submit" disabled={pending} style={{ ...btnStyle, marginTop: "0.4rem" }}>
+              <button type="submit" disabled={pending} style={{ ...btnStyle, alignSelf: "flex-start" }}>
                 Create Pitch
               </button>
             </form>
           )}
 
           {pitches.length === 0 && (
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.85rem" }}>No pitches available to claim right now.</p>
+            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No pitches available to claim right now.</p>
           )}
 
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -109,18 +125,17 @@ export default function PitchBanner({
               <div key={pitch.id} style={cardStyle}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
                   <div style={{ flex: 1 }}>
-                    <p style={{ color: "#ffffff", fontSize: "0.9rem", margin: "0 0 0.25rem" }}>{pitch.title}</p>
+                    <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.25rem", fontWeight: 500 }}>{pitch.title}</p>
                     {pitch.description && (
-                      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
+                      <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
                     )}
                     {pitch.users?.name && (
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.72rem", marginTop: "0.3rem" }}>
+                      <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.3rem" }}>
                         Proposed by {pitch.users.name}
                       </p>
                     )}
                   </div>
                   <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
-                    {/* Writer: claim button */}
                     {!isEditor && pitch.status === "available" && (
                       <form action={async () => { startTransition(async () => { await claimPitch(pitch.id); }); }}>
                         <button type="submit" disabled={pending} style={btnStyle}>
@@ -128,15 +143,12 @@ export default function PitchBanner({
                         </button>
                       </form>
                     )}
-                    {/* Editor: approve/reject/delete */}
                     {isEditor && (
-                      <>
-                        <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
-                          <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#f87171", borderColor: "rgba(248,113,113,0.3)", fontSize: "0.68rem" }}>
-                            Remove
-                          </button>
-                        </form>
-                      </>
+                      <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
+                        <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>
+                          Remove
+                        </button>
+                      </form>
                     )}
                   </div>
                 </div>
@@ -150,8 +162,8 @@ export default function PitchBanner({
 }
 
 const cardStyle: React.CSSProperties = {
-  backgroundColor: "rgba(255,255,255,0.03)",
-  border: "1px solid rgba(255,255,255,0.08)",
+  backgroundColor: "#f8f7ff",
+  border: "1px solid rgba(75,46,131,0.1)",
   borderRadius: "7px",
   padding: "0.75rem 0.9rem",
 };
@@ -159,22 +171,21 @@ const cardStyle: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "0.45rem 0.65rem",
-  backgroundColor: "rgba(255,255,255,0.05)",
-  border: "1px solid rgba(183,165,122,0.2)",
+  backgroundColor: "#ffffff",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
-  color: "#ffffff",
+  color: "#1a0a3d",
   fontSize: "0.85rem",
   outline: "none",
   boxSizing: "border-box",
   fontFamily: "var(--font-dm-sans), 'DM Sans', sans-serif",
   display: "block",
-  marginBottom: "0.4rem",
 };
 
 const btnStyle: React.CSSProperties = {
   padding: "0.38rem 0.85rem",
-  backgroundColor: "#b7a57a",
-  color: "#1a1130",
+  backgroundColor: "#4b2e83",
+  color: "#ffffff",
   border: "none",
   borderRadius: "5px",
   fontSize: "0.68rem",
@@ -188,8 +199,8 @@ const btnStyle: React.CSSProperties = {
 const ghostBtnStyle: React.CSSProperties = {
   padding: "0.35rem 0.75rem",
   backgroundColor: "transparent",
-  color: "rgba(255,255,255,0.5)",
-  border: "1px solid rgba(255,255,255,0.15)",
+  color: "#6b5f8a",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
   fontSize: "0.72rem",
   cursor: "pointer",

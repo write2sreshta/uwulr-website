@@ -13,6 +13,7 @@ interface PipelineConfig {
   editor_r1_done_by?: string | null;
   draft_v2_due?: string | null;
   final_editor_done_by?: string | null;
+  final_version_due?: string | null;
   publish_date?: string | null;
 }
 
@@ -87,7 +88,7 @@ export default function PipelinePanel({
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
         <h2
           style={{
-            color: "#ffffff",
+            color: "#4b2e83",
             fontSize: "0.65rem",
             letterSpacing: "0.22em",
             textTransform: "uppercase",
@@ -120,6 +121,7 @@ export default function PipelinePanel({
             { name: "editor_r1_done_by", label: "Editor R1 Done By", val: config?.editor_r1_done_by },
             { name: "draft_v2_due", label: "Draft V2 Due", val: config?.draft_v2_due },
             { name: "final_editor_done_by", label: "Final Review Done By", val: config?.final_editor_done_by },
+            { name: "final_version_due", label: "Final Version Due", val: config?.final_version_due },
             { name: "publish_date", label: "Publish Date", val: config?.publish_date },
           ].map(({ name, label, val }) => (
             <div key={name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
@@ -143,14 +145,14 @@ export default function PipelinePanel({
               editor_r1: config?.editor_r1_done_by,
               draft_v2: config?.draft_v2_due,
               final_editor: config?.final_editor_done_by,
-              final_version: null,
+              final_version: config?.final_version_due,
               published: config?.publish_date,
             };
             const d = dateMap[s.key];
             return (
-              <div key={s.key} style={{ display: "flex", justifyContent: "space-between", padding: "0.3rem 0", borderBottom: i < 5 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
-                <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.8rem" }}>{s.label}</span>
-                <span style={{ color: d ? "#b7a57a" : "rgba(255,255,255,0.2)", fontSize: "0.78rem" }}>{d ? fmt(d) : "TBD"}</span>
+              <div key={s.key} style={{ display: "flex", justifyContent: "space-between", padding: "0.3rem 0", borderBottom: i < 5 ? "1px solid rgba(75,46,131,0.06)" : "none" }}>
+                <span style={{ color: "#6b5f8a", fontSize: "0.8rem" }}>{s.label}</span>
+                <span style={{ color: d ? "#b7a57a" : "#c8c0d8", fontSize: "0.78rem" }}>{d ? fmt(d) : "TBD"}</span>
               </div>
             );
           })}
@@ -173,7 +175,7 @@ export default function PipelinePanel({
       )}
 
       {!isEditor && !myPipeline && (
-        <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.85rem" }}>
+        <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>
           No pitch claimed yet. Claim a pitch during the pitch window to start your pipeline.
         </p>
       )}
@@ -182,7 +184,7 @@ export default function PipelinePanel({
       {isEditor && (
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
           {pipelines.length === 0 && (
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.85rem" }}>No writers in pipeline yet.</p>
+            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No writers in pipeline yet.</p>
           )}
           {pipelines.map((p) => {
             const stage = currentStage(p);
@@ -196,12 +198,12 @@ export default function PipelinePanel({
                   style={{ display: "flex", alignItems: "center", gap: "0.75rem", cursor: "pointer" }}
                   onClick={() => setExpandedWriter(open ? null : p.writer_id)}
                 >
-                  <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.9rem" }}>{open ? "▾" : "▸"}</span>
-                  <span style={{ color: "#ffffff", fontSize: "0.88rem", flex: 1 }}>{writerName}</span>
+                  <span style={{ color: "#9b8fb8", fontSize: "0.9rem" }}>{open ? "▾" : "▸"}</span>
+                  <span style={{ color: "#1a0a3d", fontSize: "0.88rem", flex: 1 }}>{writerName}</span>
                   <span
                     style={{
-                      backgroundColor: "rgba(183,165,122,0.12)",
-                      color: "#b7a57a",
+                      backgroundColor: "rgba(75,46,131,0.08)",
+                      color: "#4b2e83",
                       fontSize: "0.6rem",
                       padding: "0.15rem 0.5rem",
                       borderRadius: "4px",
@@ -333,29 +335,29 @@ function WriterPipelineCard({
           key={row.label}
           style={{
             padding: "0.6rem 0.75rem",
-            backgroundColor: row.done ? "rgba(74,222,128,0.06)" : stage === row.stageIdx ? "rgba(183,165,122,0.07)" : "rgba(255,255,255,0.03)",
+            backgroundColor: row.done ? "#f0fdf4" : stage === row.stageIdx ? "#faf8ff" : "#f8f7ff",
             borderRadius: "6px",
-            border: `1px solid ${row.done ? "rgba(74,222,128,0.15)" : stage === row.stageIdx ? "rgba(183,165,122,0.2)" : "rgba(255,255,255,0.05)"}`,
+            border: `1px solid ${row.done ? "rgba(22,101,52,0.15)" : stage === row.stageIdx ? "rgba(75,46,131,0.2)" : "rgba(75,46,131,0.08)"}`,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: row.canSubmit || row.link ? "0.4rem" : 0 }}>
-            <span style={{ fontSize: "0.75rem", color: row.done ? "#4ade80" : stage === row.stageIdx ? "#b7a57a" : "rgba(255,255,255,0.3)" }}>
+            <span style={{ fontSize: "0.75rem", color: row.done ? "#166534" : stage === row.stageIdx ? "#4b2e83" : "#c8c0d8" }}>
               {row.done ? "✓" : stage === row.stageIdx ? "●" : "○"}
             </span>
-            <span style={{ color: row.done ? "rgba(255,255,255,0.7)" : stage === row.stageIdx ? "#ffffff" : "rgba(255,255,255,0.35)", fontSize: "0.82rem", flex: 1 }}>
+            <span style={{ color: row.done ? "#166534" : stage === row.stageIdx ? "#1a0a3d" : "#9b8fb8", fontSize: "0.82rem", flex: 1, fontWeight: stage === row.stageIdx ? 500 : 400 }}>
               {row.label}
             </span>
-            {row.date && <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.72rem" }}>{fmt(row.date)}</span>}
+            {row.date && <span style={{ color: "#9b8fb8", fontSize: "0.72rem" }}>{fmt(row.date)}</span>}
           </div>
 
           {row.link && (
-            <a href={row.link} target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, fontSize: "0.75rem", display: "block", marginLeft: "1.25rem", marginBottom: row.notes ? "0.3rem" : 0 }}>
+            <a href={row.link} target="_blank" rel="noopener noreferrer" style={{ color: "#4b2e83", fontSize: "0.75rem", display: "block", marginLeft: "1.25rem", marginBottom: row.notes ? "0.3rem" : 0 }}>
               View document ↗
             </a>
           )}
 
           {row.notes && (
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.78rem", marginLeft: "1.25rem", lineHeight: 1.5 }}>
+            <p style={{ color: "#6b5f8a", fontSize: "0.78rem", marginLeft: "1.25rem", lineHeight: 1.5 }}>
               {row.notes}
             </p>
           )}
@@ -449,8 +451,8 @@ function WriterPipelineCard({
 }
 
 const cardStyle: React.CSSProperties = {
-  backgroundColor: "#1a1130",
-  border: "1px solid rgba(183,165,122,0.12)",
+  backgroundColor: "#ffffff",
+  border: "1px solid rgba(75,46,131,0.1)",
   borderRadius: "8px",
   padding: "1rem 1.1rem",
 };
@@ -458,10 +460,10 @@ const cardStyle: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "0.4rem 0.6rem",
-  backgroundColor: "rgba(255,255,255,0.05)",
-  border: "1px solid rgba(183,165,122,0.2)",
+  backgroundColor: "#ffffff",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
-  color: "#ffffff",
+  color: "#1a0a3d",
   fontSize: "0.82rem",
   outline: "none",
   boxSizing: "border-box",
@@ -470,8 +472,8 @@ const inputStyle: React.CSSProperties = {
 
 const btnStyle: React.CSSProperties = {
   padding: "0.38rem 0.8rem",
-  backgroundColor: "#b7a57a",
-  color: "#1a1130",
+  backgroundColor: "#4b2e83",
+  color: "#ffffff",
   border: "none",
   borderRadius: "5px",
   fontSize: "0.68rem",
@@ -485,23 +487,17 @@ const btnStyle: React.CSSProperties = {
 const ghostBtnStyle: React.CSSProperties = {
   padding: "0.3rem 0.7rem",
   backgroundColor: "transparent",
-  color: "rgba(255,255,255,0.5)",
-  border: "1px solid rgba(255,255,255,0.15)",
+  color: "#6b5f8a",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
   fontSize: "0.68rem",
   cursor: "pointer",
 };
 
 const labelStyle: React.CSSProperties = {
-  color: "rgba(255,255,255,0.4)",
-  fontSize: "0.65rem",
+  color: "#9b8fb8",
+  fontSize: "0.68rem",
   letterSpacing: "0.14em",
   textTransform: "uppercase",
   fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
-};
-
-const linkStyle: React.CSSProperties = {
-  color: "#b7a57a",
-  fontSize: "0.8rem",
-  textDecoration: "none",
 };

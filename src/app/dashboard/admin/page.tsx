@@ -16,7 +16,7 @@ export default async function AdminPage() {
     <div style={{ padding: "1.5rem", maxWidth: "900px", margin: "0 auto" }}>
       <h1
         style={{
-          color: "#ffffff",
+          color: "#4b2e83",
           fontSize: "0.65rem",
           letterSpacing: "0.22em",
           textTransform: "uppercase",

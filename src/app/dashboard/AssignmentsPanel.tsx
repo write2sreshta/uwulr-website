@@ -40,6 +40,10 @@ function formatDate(d: string | null) {
   return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+function isValidUrl(str: string) {
+  return str.startsWith("http://") || str.startsWith("https://");
+}
+
 export default function AssignmentsPanel({
   assignments,
   submissions,
@@ -72,7 +76,7 @@ export default function AssignmentsPanel({
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
         <h2
           style={{
-            color: "#ffffff",
+            color: "#4b2e83",
             fontSize: "0.65rem",
             letterSpacing: "0.22em",
             textTransform: "uppercase",
@@ -101,57 +105,50 @@ export default function AssignmentsPanel({
               setShowCreate(false);
             });
           }}
-          style={cardStyle}
+          style={{ ...cardStyle, marginBottom: "1rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}
         >
-          <input name="title" placeholder="Title" required style={inputStyle} />
-          <textarea name="description" placeholder="Description (optional)" rows={3} style={{ ...inputStyle, resize: "vertical" }} />
-          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-            <label style={labelStyle}>Due date</label>
+          <input name="title" placeholder="Assignment title" required style={inputStyle} />
+          <textarea name="description" placeholder="Description (optional)…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <label style={labelStyle}>Due</label>
             <input name="due_date" type="date" style={inputStyle} />
-            <button type="submit" disabled={pending} style={{ ...btnStyle, marginLeft: "auto" }}>
-              Create
-            </button>
+            <button type="submit" disabled={pending} style={{ ...btnStyle, marginLeft: "auto" }}>Create</button>
           </div>
         </form>
       )}
 
-      {/* Assignment list */}
       {assignments.length === 0 && (
-        <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.85rem" }}>No assignments yet.</p>
+        <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No assignments yet.</p>
       )}
+
       <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
         {assignments.map((a) => {
           const open = expanded === a.id;
-          const overdue = isOverdue(a.due_date);
-          const mySubmit = mySubmission(a.id);
-          const allSubmits = submissionMap[a.id] ?? [];
           const editing = editingId === a.id;
+          const allSubmits = submissionMap[a.id] ?? [];
+          const mySubmit = mySubmission(a.id);
+          const overdue = isOverdue(a.due_date) && !mySubmit;
+          const linkVal = linkInputs[a.id] ?? "";
 
           return (
             <div key={a.id} style={cardStyle}>
-              {/* Header row */}
               <div
                 style={{ display: "flex", alignItems: "center", gap: "0.75rem", cursor: "pointer" }}
                 onClick={() => setExpanded(open ? null : a.id)}
               >
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.9rem" }}>{open ? "▾" : "▸"}</span>
-                <span style={{ color: "#ffffff", fontSize: "0.95rem", flex: 1 }}>{a.title}</span>
+                <span style={{ color: "#9b8fb8", fontSize: "0.9rem" }}>{open ? "▾" : "▸"}</span>
+                <span style={{ color: "#1a0a3d", fontSize: "0.9rem", fontWeight: 500, flex: 1 }}>{a.title}</span>
                 {a.due_date && (
-                  <span
-                    style={{
-                      fontSize: "0.72rem",
-                      color: overdue ? "#f87171" : "rgba(255,255,255,0.45)",
-                      fontFamily: "'DM Sans', sans-serif",
-                    }}
-                  >
-                    {overdue ? "Overdue · " : "Due "}{formatDate(a.due_date)}
+                  <span style={{ color: "#9b8fb8", fontSize: "0.75rem" }}>
+                    {formatDate(a.due_date)}
                   </span>
                 )}
                 {overdue && (
                   <span
                     style={{
-                      backgroundColor: "rgba(248,113,113,0.15)",
-                      color: "#f87171",
+                      backgroundColor: "#fef2f2",
+                      color: "#b91c1c",
+                      border: "1px solid rgba(185,28,28,0.2)",
                       fontSize: "0.6rem",
                       letterSpacing: "0.1em",
                       padding: "0.15rem 0.5rem",
@@ -165,8 +162,9 @@ export default function AssignmentsPanel({
                 {mySubmit && !overdue && (
                   <span
                     style={{
-                      backgroundColor: "rgba(74,222,128,0.12)",
-                      color: "#4ade80",
+                      backgroundColor: "#f0fdf4",
+                      color: "#166534",
+                      border: "1px solid rgba(22,101,52,0.2)",
                       fontSize: "0.6rem",
                       letterSpacing: "0.1em",
                       padding: "0.15rem 0.5rem",
@@ -181,7 +179,7 @@ export default function AssignmentsPanel({
 
               {/* Expanded content */}
               {open && (
-                <div style={{ marginTop: "0.85rem", paddingTop: "0.85rem", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                <div style={{ marginTop: "0.85rem", paddingTop: "0.85rem", borderTop: "1px solid rgba(75,46,131,0.08)" }}>
                   {editing && isEditor ? (
                     <form
                       action={async (fd) => {
@@ -204,7 +202,7 @@ export default function AssignmentsPanel({
                   ) : (
                     <>
                       {a.description && (
-                        <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: "1rem" }}>
+                        <p style={{ color: "#6b5f8a", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: "1rem" }}>
                           {a.description}
                         </p>
                       )}
@@ -215,8 +213,7 @@ export default function AssignmentsPanel({
                           <p style={{ ...labelStyle, marginBottom: "0.4rem" }}>Submissions</p>
                           {allSubmits.map((s) => (
                             <div key={s.id} style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginBottom: "0.3rem" }}>
-                              <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.78rem", minWidth: "90px" }}>
-                                {/* show writer_id short — real name shown in admin */}
+                              <span style={{ color: "#9b8fb8", fontSize: "0.78rem", minWidth: "90px" }}>
                                 writer
                               </span>
                               <a href={s.doc_link} target="_blank" rel="noopener noreferrer" style={linkStyle}>
@@ -236,23 +233,36 @@ export default function AssignmentsPanel({
                               setLinkInputs((p) => ({ ...p, [a.id]: "" }));
                             });
                           }}
-                          style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}
+                          style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}
                         >
                           <input type="hidden" name="assignment_id" value={a.id} />
-                          <input
-                            name="doc_link"
-                            placeholder={mySubmit ? mySubmit.doc_link : "Paste Google Doc link…"}
-                            value={linkInputs[a.id] ?? ""}
-                            onChange={(e) => setLinkInputs((p) => ({ ...p, [a.id]: e.target.value }))}
-                            style={{ ...inputStyle, flex: 1, minWidth: "200px" }}
-                          />
-                          <button type="submit" disabled={pending} style={btnStyle}>
-                            {mySubmit ? "Update" : "Submit"}
-                          </button>
-                          {mySubmit && (
-                            <a href={mySubmit.doc_link} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                              View current ↗
-                            </a>
+                          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
+                            <input
+                              name="doc_link"
+                              placeholder={mySubmit ? mySubmit.doc_link : "Paste a link (must start with https://)…"}
+                              value={linkVal}
+                              onChange={(e) => setLinkInputs((p) => ({ ...p, [a.id]: e.target.value }))}
+                              style={{ ...inputStyle, flex: 1, minWidth: "200px" }}
+                            />
+                            <button type="submit" disabled={pending} style={btnStyle}>
+                              {mySubmit ? "Update" : "Submit"}
+                            </button>
+                            {mySubmit && (
+                              isValidUrl(mySubmit.doc_link) ? (
+                                <a href={mySubmit.doc_link} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                                  Visit link ↗
+                                </a>
+                              ) : (
+                                <span style={{ color: "#b91c1c", fontSize: "0.78rem" }}>
+                                  ⚠ Submission isn&apos;t a URL — please update with an https:// link
+                                </span>
+                              )
+                            )}
+                          </div>
+                          {linkVal && !isValidUrl(linkVal) && (
+                            <p style={{ color: "#b91c1c", fontSize: "0.78rem", margin: 0 }}>
+                              Must be a URL starting with https://
+                            </p>
                           )}
                         </form>
                       )}
@@ -262,7 +272,7 @@ export default function AssignmentsPanel({
                         <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.75rem" }}>
                           <button onClick={() => setEditingId(a.id)} style={ghostBtnStyle}>Edit</button>
                           <form action={async () => { startTransition(async () => { await deleteAssignment(a.id); }); }}>
-                            <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#f87171", borderColor: "rgba(248,113,113,0.3)" }}>
+                            <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.25)" }}>
                               Delete
                             </button>
                           </form>
@@ -281,8 +291,8 @@ export default function AssignmentsPanel({
 }
 
 const cardStyle: React.CSSProperties = {
-  backgroundColor: "#1a1130",
-  border: "1px solid rgba(183,165,122,0.12)",
+  backgroundColor: "#ffffff",
+  border: "1px solid rgba(75,46,131,0.1)",
   borderRadius: "8px",
   padding: "1rem 1.1rem",
 };
@@ -290,10 +300,10 @@ const cardStyle: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "0.5rem 0.7rem",
-  backgroundColor: "rgba(255,255,255,0.05)",
-  border: "1px solid rgba(183,165,122,0.2)",
+  backgroundColor: "#f8f7ff",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
-  color: "#ffffff",
+  color: "#1a0a3d",
   fontSize: "0.88rem",
   outline: "none",
   boxSizing: "border-box",
@@ -302,8 +312,8 @@ const inputStyle: React.CSSProperties = {
 
 const btnStyle: React.CSSProperties = {
   padding: "0.4rem 0.9rem",
-  backgroundColor: "#b7a57a",
-  color: "#1a1130",
+  backgroundColor: "#4b2e83",
+  color: "#ffffff",
   border: "none",
   borderRadius: "5px",
   fontSize: "0.72rem",
@@ -317,15 +327,15 @@ const btnStyle: React.CSSProperties = {
 const ghostBtnStyle: React.CSSProperties = {
   padding: "0.35rem 0.8rem",
   backgroundColor: "transparent",
-  color: "rgba(255,255,255,0.5)",
-  border: "1px solid rgba(255,255,255,0.15)",
+  color: "#6b5f8a",
+  border: "1px solid rgba(75,46,131,0.2)",
   borderRadius: "5px",
   fontSize: "0.72rem",
   cursor: "pointer",
 };
 
 const labelStyle: React.CSSProperties = {
-  color: "rgba(255,255,255,0.4)",
+  color: "#9b8fb8",
   fontSize: "0.68rem",
   letterSpacing: "0.14em",
   textTransform: "uppercase",
@@ -333,7 +343,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 const linkStyle: React.CSSProperties = {
-  color: "#b7a57a",
+  color: "#4b2e83",
   fontSize: "0.8rem",
   textDecoration: "none",
 };
