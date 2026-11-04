@@ -18,6 +18,8 @@ export default function Navigation() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  if (pathname?.startsWith("/dashboard")) return null;
+
   return (
     <nav
       style={{ backgroundColor: "#4b2e83" }}
