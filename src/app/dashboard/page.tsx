@@ -34,7 +34,7 @@ export default async function DashboardPage() {
     ? await db.from("pipelines").select("*, users!writer_id(name, username), pitches(title)").order("updated_at", { ascending: false })
     : await db.from("pipelines").select("*, pitches(title)").eq("writer_id", session.userId);
 
-  // Fetch active pitch window
+  // Fetch active pitch window (or most recent for editors to edit)
   const now = new Date().toISOString();
   const { data: pitchWindow } = await db
     .from("pitch_windows")
@@ -43,19 +43,24 @@ export default async function DashboardPage() {
     .gte("closes_at", now)
     .single();
 
-  // Fetch pitches (if window open): available for writers to claim; under_review for editors to approve
+  // Editors also need the latest window (even if not active) to manage it
+  const { data: latestWindow } = isEditor
+    ? await db.from("pitch_windows").select("*").order("created_at", { ascending: false }).limit(1).single()
+    : { data: null };
+
+  // Fetch pitches if window active
   const { data: availablePitches } = pitchWindow
     ? await db.from("pitches").select("*, users!proposed_by_id(name)").eq("status", "available")
     : { data: [] };
 
   return (
     <div style={{ padding: "1.5rem", maxWidth: "1400px", margin: "0 auto" }}>
-      {/* Pitch banner */}
-      {pitchWindow && (
+      {/* Pitch banner — always visible to editors; writers see it only when window is active */}
+      {(isEditor || pitchWindow) && (
         <PitchBanner
-          window={pitchWindow}
+          window={pitchWindow ?? null}
+          latestWindow={latestWindow ?? null}
           pitches={availablePitches ?? []}
-          pendingPitches={[]}
           session={{ userId: session.userId ?? "", role: (session.role ?? "writer") as "admin" | "editor" | "writer" }}
           isEditor={isEditor}
         />
@@ -67,7 +72,7 @@ export default async function DashboardPage() {
           display: "grid",
           gridTemplateColumns: "2fr 1fr",
           gap: "1.5rem",
-          marginTop: pitchWindow ? "1.25rem" : 0,
+          marginTop: (isEditor || pitchWindow) ? "1.25rem" : 0,
         }}
         className="dashboard-grid"
       >

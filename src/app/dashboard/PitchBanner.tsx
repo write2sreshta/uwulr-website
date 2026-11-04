@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createPitch, claimPitch, deletePitch } from "@/app/actions/dashboard";
+import { createPitch, claimPitch, deletePitch, savePitchWindow } from "@/app/actions/dashboard";
 
 interface Pitch {
   id: string;
@@ -14,33 +14,105 @@ interface Pitch {
 }
 
 interface PitchWindow {
+  id?: string;
+  opens_at: string;
   closes_at: string;
 }
 
 export default function PitchBanner({
   window: pw,
+  latestWindow,
   pitches,
-  pendingPitches,
   session,
   isEditor,
 }: {
-  window: PitchWindow;
+  window: PitchWindow | null;
+  latestWindow: PitchWindow | null;
   pitches: Pitch[];
-  pendingPitches: Pitch[];
   session: { userId: string; role: string };
   isEditor: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
+  const [showWindowForm, setShowWindowForm] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  const closesIn = new Date(pw.closes_at);
-  const daysLeft = Math.ceil((closesIn.getTime() - Date.now()) / 86400000);
-  const totalCount = pitches.length + (isEditor ? pendingPitches.length : 0);
+  const isActive = !!pw;
+  const daysLeft = pw
+    ? Math.ceil((new Date(pw.closes_at).getTime() - Date.now()) / 86400000)
+    : 0;
 
+  // Editor with no active window — show a "Start pitch window" button
+  if (isEditor && !isActive) {
+    return (
+      <div style={{ marginBottom: "1.25rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            padding: "0.75rem 1.25rem",
+            border: "1.5px dashed rgba(75,46,131,0.25)",
+            borderRadius: "8px",
+            backgroundColor: "transparent",
+          }}
+        >
+          <span style={{ color: "#9b8fb8", fontSize: "0.8rem", flex: 1 }}>
+            No active pitch window
+          </span>
+          <button
+            style={btnStyle}
+            onClick={() => setShowWindowForm((v) => !v)}
+          >
+            {showWindowForm ? "Cancel" : "Open Pitch Window"}
+          </button>
+        </div>
+
+        {showWindowForm && (
+          <form
+            action={async (fd) => {
+              startTransition(async () => {
+                await savePitchWindow(fd);
+                setShowWindowForm(false);
+              });
+            }}
+            style={{ ...cardStyle, marginTop: "0.5rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}
+          >
+            <p style={sectionLabel}>Set Pitch Window Dates</p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <div style={{ flex: 1, minWidth: "160px" }}>
+                <label style={{ ...sectionLabel, display: "block", marginBottom: "0.3rem" }}>Opens</label>
+                <input
+                  name="opens_at"
+                  type="datetime-local"
+                  defaultValue={latestWindow?.opens_at?.slice(0, 16) ?? ""}
+                  required
+                  style={inputStyle}
+                />
+              </div>
+              <div style={{ flex: 1, minWidth: "160px" }}>
+                <label style={{ ...sectionLabel, display: "block", marginBottom: "0.3rem" }}>Closes</label>
+                <input
+                  name="closes_at"
+                  type="datetime-local"
+                  defaultValue={latestWindow?.closes_at?.slice(0, 16) ?? ""}
+                  required
+                  style={inputStyle}
+                />
+              </div>
+            </div>
+            <button type="submit" disabled={pending} style={{ ...btnStyle, alignSelf: "flex-start" }}>
+              Save Window
+            </button>
+          </form>
+        )}
+      </div>
+    );
+  }
+
+  // Active window — show the full banner
   return (
     <div style={{ marginBottom: "1.25rem" }}>
-      {/* Dashed CTA button */}
       <button
         onClick={() => setExpanded((v) => !v)}
         style={{
@@ -70,14 +142,11 @@ export default function PitchBanner({
         </span>
         <span style={{ color: "#6b5f8a", fontSize: "0.8rem", flex: 1, textAlign: "left" }}>
           {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} left` : "Closes today"}
-          {totalCount > 0 && ` · ${totalCount} pitch${totalCount !== 1 ? "es" : ""}`}
+          {pitches.length > 0 && ` · ${pitches.length} pitch${pitches.length !== 1 ? "es" : ""} available`}
         </span>
-        <span style={{ color: "#4b2e83", fontSize: "0.72rem" }}>
-          {expanded ? "▲" : "▼"}
-        </span>
+        <span style={{ color: "#4b2e83", fontSize: "0.72rem" }}>{expanded ? "▲" : "▼"}</span>
       </button>
 
-      {/* Expanded panel */}
       {expanded && (
         <div
           style={{
@@ -88,13 +157,41 @@ export default function PitchBanner({
             borderRadius: "8px",
           }}
         >
-          {/* Editor-only: add pitch */}
+          {/* Editor controls */}
           {isEditor && (
-            <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end", marginBottom: "0.75rem" }}>
+              <button style={ghostBtnStyle} onClick={() => setShowWindowForm((v) => !v)}>
+                {showWindowForm ? "Cancel" : "Edit Window"}
+              </button>
               <button style={btnStyle} onClick={() => setShowCreate((v) => !v)}>
                 {showCreate ? "Cancel" : "+ Add Pitch"}
               </button>
             </div>
+          )}
+
+          {isEditor && showWindowForm && (
+            <form
+              action={async (fd) => {
+                startTransition(async () => {
+                  await savePitchWindow(fd);
+                  setShowWindowForm(false);
+                });
+              }}
+              style={{ ...cardStyle, marginBottom: "0.75rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}
+            >
+              <p style={sectionLabel}>Edit Pitch Window Dates</p>
+              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                <div style={{ flex: 1, minWidth: "160px" }}>
+                  <label style={{ ...sectionLabel, display: "block", marginBottom: "0.3rem" }}>Opens</label>
+                  <input name="opens_at" type="datetime-local" defaultValue={pw?.opens_at?.slice(0, 16) ?? ""} required style={inputStyle} />
+                </div>
+                <div style={{ flex: 1, minWidth: "160px" }}>
+                  <label style={{ ...sectionLabel, display: "block", marginBottom: "0.3rem" }}>Closes</label>
+                  <input name="closes_at" type="datetime-local" defaultValue={pw?.closes_at?.slice(0, 16) ?? ""} required style={inputStyle} />
+                </div>
+              </div>
+              <button type="submit" disabled={pending} style={{ ...btnStyle, alignSelf: "flex-start" }}>Save</button>
+            </form>
           )}
 
           {isEditor && showCreate && (
@@ -115,48 +212,45 @@ export default function PitchBanner({
             </form>
           )}
 
-          {/* Available pitches to claim */}
           {pitches.length === 0 && !showCreate && (
-            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No pitches available yet.</p>
+            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>
+              {isEditor ? "No pitches yet — add some for writers to claim." : "No pitches available to claim right now."}
+            </p>
           )}
 
-          {pitches.length > 0 && (
-            <div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                {pitches.map((pitch) => (
-                  <div key={pitch.id} style={cardStyle}>
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.25rem", fontWeight: 500 }}>{pitch.title}</p>
-                        {pitch.description && (
-                          <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
-                        )}
-                        {pitch.users?.name && (
-                          <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.3rem" }}>
-                            Proposed by {pitch.users.name}
-                          </p>
-                        )}
-                      </div>
-                      <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
-                        {!isEditor && pitch.status === "available" && (
-                          <form action={async () => { startTransition(async () => { await claimPitch(pitch.id); }); }}>
-                            <button type="submit" disabled={pending} style={btnStyle}>Claim</button>
-                          </form>
-                        )}
-                        {isEditor && (
-                          <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
-                            <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>
-                              Remove
-                            </button>
-                          </form>
-                        )}
-                      </div>
-                    </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            {pitches.map((pitch) => (
+              <div key={pitch.id} style={cardStyle}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.25rem", fontWeight: 500 }}>{pitch.title}</p>
+                    {pitch.description && (
+                      <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
+                    )}
+                    {pitch.users?.name && (
+                      <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.3rem" }}>
+                        Added by {pitch.users.name}
+                      </p>
+                    )}
                   </div>
-                ))}
+                  <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
+                    {!isEditor && (
+                      <form action={async () => { startTransition(async () => { await claimPitch(pitch.id); }); }}>
+                        <button type="submit" disabled={pending} style={btnStyle}>Claim</button>
+                      </form>
+                    )}
+                    {isEditor && (
+                      <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
+                        <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>
+                          Remove
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -215,4 +309,5 @@ const sectionLabel: React.CSSProperties = {
   letterSpacing: "0.16em",
   textTransform: "uppercase",
   fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
+  margin: 0,
 };
