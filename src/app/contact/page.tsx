@@ -228,7 +228,7 @@ export default function ContactPage() {
                 {note && (
                   <p
                     style={{
-                      color: "#b7a57a",
+                      color: "#8b1a1a",
                       fontSize: "0.7rem",
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
