@@ -78,18 +78,17 @@ export async function savePitchWindow(formData: FormData) {
 // ── Pitches ──────────────────────────────────────────────────────────────────
 
 export async function createPitch(formData: FormData) {
-  const session = await requireRole("admin", "editor", "writer");
+  const session = await requireRole("admin", "editor");
   const { data: window } = await db.from("pitch_windows").select("id").limit(1).single();
   if (!window) throw new Error("No pitch window");
 
-  const isEditor = session.role === "admin" || session.role === "editor";
   await db.from("pitches").insert({
     pitch_window_id: window.id,
     title: formData.get("title") as string,
     description: formData.get("description") as string,
     proposed_by_id: session.userId,
-    proposed_by_role: isEditor ? "editor" : "writer",
-    status: isEditor ? "available" : "under_review",
+    proposed_by_role: "editor",
+    status: "available",
   });
   revalidatePath("/dashboard");
 }

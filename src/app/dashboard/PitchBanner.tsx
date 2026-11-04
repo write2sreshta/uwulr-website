@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createPitch, claimPitch, deletePitch, approvePitch, rejectPitch } from "@/app/actions/dashboard";
+import { createPitch, claimPitch, deletePitch } from "@/app/actions/dashboard";
 
 interface Pitch {
   id: string;
@@ -88,14 +88,16 @@ export default function PitchBanner({
             borderRadius: "8px",
           }}
         >
-          {/* Propose / Add button — everyone */}
-          <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
-            <button style={btnStyle} onClick={() => setShowCreate((v) => !v)}>
-              {showCreate ? "Cancel" : isEditor ? "+ Add Pitch" : "+ Propose a Pitch"}
-            </button>
-          </div>
+          {/* Editor-only: add pitch */}
+          {isEditor && (
+            <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
+              <button style={btnStyle} onClick={() => setShowCreate((v) => !v)}>
+                {showCreate ? "Cancel" : "+ Add Pitch"}
+              </button>
+            </div>
+          )}
 
-          {showCreate && (
+          {isEditor && showCreate && (
             <form
               action={async (fd) => {
                 startTransition(async () => {
@@ -107,59 +109,19 @@ export default function PitchBanner({
             >
               <input name="title" placeholder="Pitch title" required style={inputStyle} />
               <textarea name="description" placeholder="Brief description…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
-              {!isEditor && (
-                <p style={{ color: "#9b8fb8", fontSize: "0.75rem", margin: 0 }}>
-                  Your pitch will be sent to editors for review before it&apos;s listed.
-                </p>
-              )}
               <button type="submit" disabled={pending} style={{ ...btnStyle, alignSelf: "flex-start" }}>
-                {isEditor ? "Create Pitch" : "Submit for Review"}
+                Create Pitch
               </button>
             </form>
           )}
 
-          {/* Editor: pending approval */}
-          {isEditor && pendingPitches.length > 0 && (
-            <div style={{ marginBottom: "1rem" }}>
-              <p style={{ ...sectionLabel, marginBottom: "0.4rem" }}>Awaiting Approval</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-                {pendingPitches.map((pitch) => (
-                  <div key={pitch.id} style={{ ...cardStyle, borderColor: "rgba(183,165,122,0.3)", backgroundColor: "#fffdf5" }}>
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.2rem", fontWeight: 500 }}>{pitch.title}</p>
-                        {pitch.description && (
-                          <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
-                        )}
-                        {pitch.users?.name && (
-                          <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.25rem" }}>
-                            Proposed by {pitch.users.name}
-                          </p>
-                        )}
-                      </div>
-                      <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
-                        <form action={async () => { startTransition(async () => { await approvePitch(pitch.id); }); }}>
-                          <button type="submit" disabled={pending} style={btnStyle}>Approve</button>
-                        </form>
-                        <form action={async () => { startTransition(async () => { await rejectPitch(pitch.id); }); }}>
-                          <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>Reject</button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Available pitches to claim */}
-          {pitches.length === 0 && pendingPitches.length === 0 && !showCreate && (
+          {pitches.length === 0 && !showCreate && (
             <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No pitches available yet.</p>
           )}
 
           {pitches.length > 0 && (
             <div>
-              {isEditor && <p style={{ ...sectionLabel, marginBottom: "0.4rem" }}>Available to Claim</p>}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {pitches.map((pitch) => (
                   <div key={pitch.id} style={cardStyle}>

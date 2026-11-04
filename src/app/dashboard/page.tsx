@@ -48,10 +48,6 @@ export default async function DashboardPage() {
     ? await db.from("pitches").select("*, users!proposed_by_id(name)").eq("status", "available")
     : { data: [] };
 
-  const { data: pendingPitches } = pitchWindow && isEditor
-    ? await db.from("pitches").select("*, users!proposed_by_id(name)").eq("status", "under_review")
-    : { data: [] };
-
   return (
     <div style={{ padding: "1.5rem", maxWidth: "1400px", margin: "0 auto" }}>
       {/* Pitch banner */}
@@ -59,7 +55,7 @@ export default async function DashboardPage() {
         <PitchBanner
           window={pitchWindow}
           pitches={availablePitches ?? []}
-          pendingPitches={isEditor ? (pendingPitches ?? []) : []}
+          pendingPitches={[]}
           session={{ userId: session.userId ?? "", role: (session.role ?? "writer") as "admin" | "editor" | "writer" }}
           isEditor={isEditor}
         />
