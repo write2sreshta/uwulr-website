@@ -43,9 +43,13 @@ export default async function DashboardPage() {
     .gte("closes_at", now)
     .single();
 
-  // Fetch available pitches (if window open)
+  // Fetch pitches (if window open): available for writers to claim; under_review for editors to approve
   const { data: availablePitches } = pitchWindow
     ? await db.from("pitches").select("*, users!proposed_by_id(name)").eq("status", "available")
+    : { data: [] };
+
+  const { data: pendingPitches } = pitchWindow && isEditor
+    ? await db.from("pitches").select("*, users!proposed_by_id(name)").eq("status", "under_review")
     : { data: [] };
 
   return (
@@ -55,6 +59,7 @@ export default async function DashboardPage() {
         <PitchBanner
           window={pitchWindow}
           pitches={availablePitches ?? []}
+          pendingPitches={isEditor ? (pendingPitches ?? []) : []}
           session={{ userId: session.userId ?? "", role: (session.role ?? "writer") as "admin" | "editor" | "writer" }}
           isEditor={isEditor}
         />

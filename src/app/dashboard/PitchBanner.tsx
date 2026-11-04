@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createPitch, claimPitch, deletePitch } from "@/app/actions/dashboard";
+import { createPitch, claimPitch, deletePitch, approvePitch, rejectPitch } from "@/app/actions/dashboard";
 
 interface Pitch {
   id: string;
@@ -20,11 +20,13 @@ interface PitchWindow {
 export default function PitchBanner({
   window: pw,
   pitches,
+  pendingPitches,
   session,
   isEditor,
 }: {
   window: PitchWindow;
   pitches: Pitch[];
+  pendingPitches: Pitch[];
   session: { userId: string; role: string };
   isEditor: boolean;
 }) {
@@ -34,6 +36,7 @@ export default function PitchBanner({
 
   const closesIn = new Date(pw.closes_at);
   const daysLeft = Math.ceil((closesIn.getTime() - Date.now()) / 86400000);
+  const totalCount = pitches.length + (isEditor ? pendingPitches.length : 0);
 
   return (
     <div style={{ marginBottom: "1.25rem" }}>
@@ -50,7 +53,7 @@ export default function PitchBanner({
           display: "flex",
           alignItems: "center",
           gap: "0.75rem",
-          transition: "background 0.15s, border-color 0.15s",
+          transition: "background 0.15s",
         }}
       >
         <span style={{ fontSize: "1rem" }}>📋</span>
@@ -67,8 +70,7 @@ export default function PitchBanner({
         </span>
         <span style={{ color: "#6b5f8a", fontSize: "0.8rem", flex: 1, textAlign: "left" }}>
           {daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} left` : "Closes today"}
-          {" · "}
-          {pitches.length} pitch{pitches.length !== 1 ? "es" : ""} available
+          {totalCount > 0 && ` · ${totalCount} pitch${totalCount !== 1 ? "es" : ""}`}
         </span>
         <span style={{ color: "#4b2e83", fontSize: "0.72rem" }}>
           {expanded ? "▲" : "▼"}
@@ -86,19 +88,14 @@ export default function PitchBanner({
             borderRadius: "8px",
           }}
         >
-          {/* Editor controls */}
-          {isEditor && (
-            <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
-              <button
-                style={btnStyle}
-                onClick={() => setShowCreate((v) => !v)}
-              >
-                {showCreate ? "Cancel" : "+ Add Pitch"}
-              </button>
-            </div>
-          )}
+          {/* Propose / Add button — everyone */}
+          <div style={{ marginBottom: "0.75rem", display: "flex", justifyContent: "flex-end" }}>
+            <button style={btnStyle} onClick={() => setShowCreate((v) => !v)}>
+              {showCreate ? "Cancel" : isEditor ? "+ Add Pitch" : "+ Propose a Pitch"}
+            </button>
+          </div>
 
-          {showCreate && isEditor && (
+          {showCreate && (
             <form
               action={async (fd) => {
                 startTransition(async () => {
@@ -110,51 +107,94 @@ export default function PitchBanner({
             >
               <input name="title" placeholder="Pitch title" required style={inputStyle} />
               <textarea name="description" placeholder="Brief description…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+              {!isEditor && (
+                <p style={{ color: "#9b8fb8", fontSize: "0.75rem", margin: 0 }}>
+                  Your pitch will be sent to editors for review before it&apos;s listed.
+                </p>
+              )}
               <button type="submit" disabled={pending} style={{ ...btnStyle, alignSelf: "flex-start" }}>
-                Create Pitch
+                {isEditor ? "Create Pitch" : "Submit for Review"}
               </button>
             </form>
           )}
 
-          {pitches.length === 0 && (
-            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No pitches available to claim right now.</p>
+          {/* Editor: pending approval */}
+          {isEditor && pendingPitches.length > 0 && (
+            <div style={{ marginBottom: "1rem" }}>
+              <p style={{ ...sectionLabel, marginBottom: "0.4rem" }}>Awaiting Approval</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                {pendingPitches.map((pitch) => (
+                  <div key={pitch.id} style={{ ...cardStyle, borderColor: "rgba(183,165,122,0.3)", backgroundColor: "#fffdf5" }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.2rem", fontWeight: 500 }}>{pitch.title}</p>
+                        {pitch.description && (
+                          <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
+                        )}
+                        {pitch.users?.name && (
+                          <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.25rem" }}>
+                            Proposed by {pitch.users.name}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
+                        <form action={async () => { startTransition(async () => { await approvePitch(pitch.id); }); }}>
+                          <button type="submit" disabled={pending} style={btnStyle}>Approve</button>
+                        </form>
+                        <form action={async () => { startTransition(async () => { await rejectPitch(pitch.id); }); }}>
+                          <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>Reject</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            {pitches.map((pitch) => (
-              <div key={pitch.id} style={cardStyle}>
-                <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.25rem", fontWeight: 500 }}>{pitch.title}</p>
-                    {pitch.description && (
-                      <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
-                    )}
-                    {pitch.users?.name && (
-                      <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.3rem" }}>
-                        Proposed by {pitch.users.name}
-                      </p>
-                    )}
+          {/* Available pitches to claim */}
+          {pitches.length === 0 && pendingPitches.length === 0 && !showCreate && (
+            <p style={{ color: "#9b8fb8", fontSize: "0.85rem" }}>No pitches available yet.</p>
+          )}
+
+          {pitches.length > 0 && (
+            <div>
+              {isEditor && <p style={{ ...sectionLabel, marginBottom: "0.4rem" }}>Available to Claim</p>}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                {pitches.map((pitch) => (
+                  <div key={pitch.id} style={cardStyle}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ color: "#1a0a3d", fontSize: "0.9rem", margin: "0 0 0.25rem", fontWeight: 500 }}>{pitch.title}</p>
+                        {pitch.description && (
+                          <p style={{ color: "#6b5f8a", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>{pitch.description}</p>
+                        )}
+                        {pitch.users?.name && (
+                          <p style={{ color: "#9b8fb8", fontSize: "0.72rem", marginTop: "0.3rem" }}>
+                            Proposed by {pitch.users.name}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
+                        {!isEditor && pitch.status === "available" && (
+                          <form action={async () => { startTransition(async () => { await claimPitch(pitch.id); }); }}>
+                            <button type="submit" disabled={pending} style={btnStyle}>Claim</button>
+                          </form>
+                        )}
+                        {isEditor && (
+                          <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
+                            <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>
+                              Remove
+                            </button>
+                          </form>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
-                    {!isEditor && pitch.status === "available" && (
-                      <form action={async () => { startTransition(async () => { await claimPitch(pitch.id); }); }}>
-                        <button type="submit" disabled={pending} style={btnStyle}>
-                          Claim
-                        </button>
-                      </form>
-                    )}
-                    {isEditor && (
-                      <form action={async () => { startTransition(async () => { await deletePitch(pitch.id); }); }}>
-                        <button type="submit" disabled={pending} style={{ ...ghostBtnStyle, color: "#b91c1c", borderColor: "rgba(185,28,28,0.3)" }}>
-                          Remove
-                        </button>
-                      </form>
-                    )}
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -205,4 +245,12 @@ const ghostBtnStyle: React.CSSProperties = {
   fontSize: "0.72rem",
   cursor: "pointer",
   whiteSpace: "nowrap",
+};
+
+const sectionLabel: React.CSSProperties = {
+  color: "#9b8fb8",
+  fontSize: "0.62rem",
+  letterSpacing: "0.16em",
+  textTransform: "uppercase",
+  fontFamily: "'Lovelo Solid', 'Futura', sans-serif",
 };
